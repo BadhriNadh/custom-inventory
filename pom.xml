@@ -9,8 +9,8 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.custom</groupId>
-	<artifactId>inventory</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>custom-inventory</artifactId>
+	<version>0.0.1</version>
 	<name>inventory</name>
 	<description>Custom inventory management</description>
 	<properties>

@@ -19,8 +19,11 @@ import java.util.HashMap;
 @RequestMapping("/item")
 public class ItemController {
 
-    @Autowired
-    ItemService itemService;
+    final ItemService itemService;
+
+    public ItemController(ItemService itemService) {
+        this.itemService = itemService;
+    }
 
     @PostMapping("/add")
     private ResponseEntity<Response> addItem(@RequestBody RequestItem requestItem){

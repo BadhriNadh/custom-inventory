@@ -6,7 +6,7 @@ COPY . /app
 
 RUN mvn clean package
 
-FROM openjdk:17-jre-slim
+FROM openjdk:17
 
 RUN mkdir /deploy
 

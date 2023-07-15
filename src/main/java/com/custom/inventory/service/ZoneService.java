@@ -12,8 +12,11 @@ import java.util.List;
 @Component
 public class ZoneService {
 
-    @Autowired
-    StoreRepository storeRepository;
+    final StoreRepository storeRepository;
+
+    public ZoneService(StoreRepository storeRepository) {
+        this.storeRepository = storeRepository;
+    }
 
     public List<String> createZone(RequestZone requestZone){
         Store store = storeRepository.findStore(requestZone.getName(), requestZone.getEmail());

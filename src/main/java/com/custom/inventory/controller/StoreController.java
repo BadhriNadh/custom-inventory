@@ -18,13 +18,22 @@ import java.util.List;
 @RequestMapping("/store")
 public class StoreController {
 
-    @Autowired
-    StoreService storeService;
+    final StoreService storeService;
+
+    public StoreController(StoreService storeService) {
+        this.storeService = storeService;
+    }
 
     @PostMapping("/open")
     private ResponseEntity<Response> openStore(@RequestBody RequestStore requestStore){
-        List<String> zoneNames = storeService.findOrCreateStore(requestStore);
-        Response response = new Response(zoneNames, HttpStatus.OK.value(), HttpStatus.OK.name());
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+
+        return ResponseEntity.status(HttpStatus.OK).body(storeService.findStore(requestStore));
+    }
+
+    @PostMapping("/create")
+    private ResponseEntity<Response> createStore(@RequestBody RequestStore requestStore){
+        List<String> zoneNames = storeService.createStore(requestStore);
+        Response response = new Response(zoneNames, HttpStatus.CREATED.value(), HttpStatus.CREATED.name());
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }

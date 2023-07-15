@@ -13,8 +13,11 @@ import java.util.List;
 @Component
 public class ItemService {
 
-    @Autowired
-    StoreRepository storeRepository;
+    final StoreRepository storeRepository;
+
+    public ItemService(StoreRepository storeRepository) {
+        this.storeRepository = storeRepository;
+    }
 
     public Zone updateItem(RequestItem requestItem){
         Store store = storeRepository.findStore(requestItem.getName(), requestItem.getEmail());

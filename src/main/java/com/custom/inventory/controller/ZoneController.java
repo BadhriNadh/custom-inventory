@@ -18,8 +18,11 @@ import java.util.List;
 @RequestMapping("/zone")
 public class ZoneController {
 
-    @Autowired
-    ZoneService zoneService;
+    final ZoneService zoneService;
+
+    public ZoneController(ZoneService zoneService) {
+        this.zoneService = zoneService;
+    }
 
     @PostMapping("/create")
     private ResponseEntity<Response> createZone(@RequestBody RequestZone requestZone){

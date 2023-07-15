@@ -18,26 +18,31 @@ import java.util.regex.Pattern;
 
 @Repository
 public class StoreRepository {
-    @Autowired
-    MongoTemplate mongoTemplate;
+    final MongoTemplate mongoTemplate;
 
-    public Store findStore(String name, String email){
-        Pattern namePattern = Pattern.compile(name, Pattern.CASE_INSENSITIVE);
-        Pattern emailPattern = Pattern.compile(email, Pattern.CASE_INSENSITIVE);
+    public StoreRepository(MongoTemplate mongoTemplate) {
+        this.mongoTemplate = mongoTemplate;
+    }
+
+    public Store findStore(String name, String email) {
+        Pattern namePattern = Pattern.compile("^" + Pattern.quote(name) + "$", Pattern.CASE_INSENSITIVE);
+        Pattern emailPattern = Pattern.compile("^" + Pattern.quote(email) + "$", Pattern.CASE_INSENSITIVE);
+
         Query query = new Query(Criteria.where("name").regex(namePattern).and("email").regex(emailPattern));
 
         return mongoTemplate.findOne(query, Store.class);
     }
 
-    public Store createStore(RequestStore requestStore){
+
+
+    public void createStore(RequestStore requestStore){
         Store newStore = new Store(requestStore.getName(), requestStore.getEmail(), List.of());
         mongoTemplate.insert(newStore);
-        return newStore;
     }
 
     public void addZone(RequestZone requestZone){
-        Pattern namePattern = Pattern.compile(requestZone.getName(), Pattern.CASE_INSENSITIVE);
-        Pattern emailPattern = Pattern.compile(requestZone.getEmail(), Pattern.CASE_INSENSITIVE);
+        Pattern namePattern = Pattern.compile("^" + requestZone.getName()+ "$",Pattern.CASE_INSENSITIVE);
+        Pattern emailPattern = Pattern.compile("^" + requestZone.getEmail()+ "$", Pattern.CASE_INSENSITIVE);
         Query query = new Query(Criteria.where("name").regex(namePattern).and("email").regex(emailPattern));
 
         Zone newZone = new Zone(requestZone.getZoneName(), List.of());
@@ -48,9 +53,9 @@ public class StoreRepository {
     }
 
     public void addItemToZone(RequestItem requestItem) {
-        Pattern namePattern = Pattern.compile(requestItem.getName(), Pattern.CASE_INSENSITIVE);
-        Pattern emailPattern = Pattern.compile(requestItem.getEmail(), Pattern.CASE_INSENSITIVE);
-        Pattern zoneNamePattern = Pattern.compile(requestItem.getZoneName(), Pattern.CASE_INSENSITIVE);
+        Pattern namePattern = Pattern.compile("^" + requestItem.getName()+ "$", Pattern.CASE_INSENSITIVE);
+        Pattern emailPattern = Pattern.compile("^" + requestItem.getEmail()+ "$", Pattern.CASE_INSENSITIVE);
+        Pattern zoneNamePattern = Pattern.compile("^" + requestItem.getZoneName()+ "$", Pattern.CASE_INSENSITIVE);
         Query query = new Query(Criteria.where("name").regex(namePattern)
                 .and("email").regex(emailPattern)
                 .and("zones.zoneName").regex(zoneNamePattern));
@@ -63,10 +68,10 @@ public class StoreRepository {
     }
 
     public void updateItemCountInZone(RequestItem requestItem) {
-        Pattern namePattern = Pattern.compile(requestItem.getName(), Pattern.CASE_INSENSITIVE);
-        Pattern emailPattern = Pattern.compile(requestItem.getEmail(), Pattern.CASE_INSENSITIVE);
-        Pattern zoneNamePattern = Pattern.compile(requestItem.getZoneName(), Pattern.CASE_INSENSITIVE);
-        Pattern itemNamePattern = Pattern.compile(requestItem.getItemName(), Pattern.CASE_INSENSITIVE);
+        Pattern namePattern = Pattern.compile("^" + requestItem.getName()+ "$", Pattern.CASE_INSENSITIVE);
+        Pattern emailPattern = Pattern.compile("^" + requestItem.getEmail()+ "$", Pattern.CASE_INSENSITIVE);
+        Pattern zoneNamePattern = Pattern.compile("^" + requestItem.getZoneName()+ "$", Pattern.CASE_INSENSITIVE);
+        Pattern itemNamePattern = Pattern.compile("^" + requestItem.getItemName()+ "$", Pattern.CASE_INSENSITIVE);
         Query query = new Query(Criteria.where("name").regex(namePattern)
                 .and("email").regex(emailPattern)
                 .and("zones.zoneName").regex(zoneNamePattern)

@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -36,7 +37,8 @@ public class StoreRepository {
 
 
     public void createStore(RequestStore requestStore){
-        Store newStore = new Store(requestStore.getName(), requestStore.getEmail(), List.of());
+
+        Store newStore = new Store(requestStore.getName(), requestStore.getEmail(), new ArrayList<>());
         mongoTemplate.insert(newStore);
     }
 
@@ -45,7 +47,8 @@ public class StoreRepository {
         Pattern emailPattern = Pattern.compile("^" + requestZone.getEmail()+ "$", Pattern.CASE_INSENSITIVE);
         Query query = new Query(Criteria.where("name").regex(namePattern).and("email").regex(emailPattern));
 
-        Zone newZone = new Zone(requestZone.getZoneName(), List.of());
+        String zoneName = requestZone.getZoneName();
+        Zone newZone = new Zone(zoneName.isEmpty() ? zoneName : String.join("", zoneName.substring(0, 1).toUpperCase(), zoneName.substring(1).toLowerCase()), new ArrayList<>());
 
         Update update = new Update().push("zones", newZone);
 
@@ -60,7 +63,8 @@ public class StoreRepository {
                 .and("email").regex(emailPattern)
                 .and("zones.zoneName").regex(zoneNamePattern));
 
-        Item newItem = new Item(requestItem.getItemName(), requestItem.getCount());
+        String itemName = requestItem.getItemName();
+        Item newItem = new Item(itemName.isEmpty() ? itemName : String.join("", itemName.substring(0, 1).toUpperCase(), itemName.substring(1).toLowerCase()), requestItem.getCount());
 
         Update update = new Update().push("zones.$.items", newItem);
 

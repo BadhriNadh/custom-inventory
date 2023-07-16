@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/zone")
-public class ZoneController {
+public class ZoneController extends Handler {
 
     final ZoneService zoneService;
 

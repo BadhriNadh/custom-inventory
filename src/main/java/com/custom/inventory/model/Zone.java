@@ -1,12 +1,12 @@
 package com.custom.inventory.model;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class Zone {
     private String zoneName;
-    private List<Item> items;
+    private ArrayList<Item> items;
 
-    public Zone(String zoneName, List<Item> items) {
+    public Zone(String zoneName, ArrayList<Item> items) {
         this.zoneName = zoneName;
         this.items = items;
     }
@@ -19,11 +19,11 @@ public class Zone {
         this.zoneName = zoneName;
     }
 
-    public List<Item> getItems() {
+    public ArrayList<Item> getItems() {
         return items;
     }
 
-    public void setItems(List<Item> items) {
+    public void setItems(ArrayList<Item> items) {
         this.items = items;
     }
 }

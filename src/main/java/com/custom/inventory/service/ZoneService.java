@@ -23,13 +23,16 @@ public class ZoneService {
 
         List<Zone> zones = store.getZones().stream().filter(z -> z.getZoneName().equalsIgnoreCase(requestZone.getZoneName())).toList();
         List<String> zoneNames = new java.util.ArrayList<>();
-        store.getZones().forEach(zone -> zoneNames.add(zone.getZoneName()));
+
 
         if(zones.isEmpty()){
             storeRepository.addZone(requestZone);
-            zoneNames.add(requestZone.getZoneName());
+            Store updatedStore = storeRepository.findStore(requestZone.getName(), requestZone.getEmail());
+            updatedStore.getZones().forEach(zone -> zoneNames.add(zone.getZoneName()));
+            return zoneNames;
         }
 
+        store.getZones().forEach(zone -> zoneNames.add(zone.getZoneName()));
         return zoneNames;
     }
 

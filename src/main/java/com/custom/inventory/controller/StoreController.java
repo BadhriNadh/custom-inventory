@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/store")
-public class StoreController {
+public class StoreController extends Handler {
 
     final StoreService storeService;
 
@@ -26,14 +26,13 @@ public class StoreController {
 
     @PostMapping("/open")
     private ResponseEntity<Response> openStore(@RequestBody RequestStore requestStore){
-
-        return ResponseEntity.status(HttpStatus.OK).body(storeService.findStore(requestStore));
+        Response response = storeService.findStore(requestStore);
+        return ResponseEntity.status(response.getStatus()).body(response);
     }
 
     @PostMapping("/create")
     private ResponseEntity<Response> createStore(@RequestBody RequestStore requestStore){
-        List<String> zoneNames = storeService.createStore(requestStore);
-        Response response = new Response(zoneNames, HttpStatus.CREATED.value(), HttpStatus.CREATED.name());
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        Response response = storeService.createStore(requestStore);
+        return ResponseEntity.status(response.getStatus()).body(response);
     }
 }

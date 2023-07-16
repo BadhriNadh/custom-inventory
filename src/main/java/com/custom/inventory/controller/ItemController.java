@@ -17,7 +17,7 @@ import java.util.HashMap;
 
 @RestController
 @RequestMapping("/item")
-public class ItemController {
+public class ItemController extends Handler {
 
     final ItemService itemService;
 

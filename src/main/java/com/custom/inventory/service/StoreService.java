@@ -21,22 +21,21 @@ public class StoreService {
 
     public Response findStore(RequestStore requestStore){
         Store store = storeRepository.findStore(requestStore.getName(), requestStore.getEmail());
-        ArrayList<String> zoneNames = new ArrayList<>();
+        ArrayList<Object> zoneNames = new ArrayList<>();
 
         if(store == null){
             return new Response(zoneNames, HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND.name());
         }
 
         store.getZones().forEach(zone -> zoneNames.add(zone.getZoneName()));
-        List<String> itemsNames = store.getZones().stream()
-                .flatMap(zone -> zone.getItems().stream())
-                .map(Item::getItemName)
-                .distinct()
+        List<Item> items = store.getZones().stream()
+                .flatMap(zone -> zone.getItems().stream()
+                        .map(item -> new Item(zone.getZoneName(), item.getItemName(), item.getCount())))
                 .toList();
 
-        HashMap<String, ArrayList<String>> result = new HashMap<String, ArrayList<String>>();
+        HashMap<String, ArrayList<Object>> result = new HashMap<String, ArrayList<Object>>();
         result.put("zones", zoneNames);
-        result.put("items", new ArrayList<>(itemsNames));
+        result.put("items", new ArrayList<>(items));
 
         return new Response(result, HttpStatus.OK.value(), HttpStatus.OK.name());
     }

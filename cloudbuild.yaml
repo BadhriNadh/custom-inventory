@@ -1,0 +1,9 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'us-west2-docker.pkg.dev/$PROJECT_ID/custom-inventory/custom-inventory:latest', '.']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'us-west2-docker.pkg.dev/$PROJECT_ID/custom-inventory/custom-inventory:latest']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['run', 'deploy', 'custom-inventory', '--image=us-west2-docker.pkg.dev/$PROJECT_ID/custom-inventory/custom-inventory:latest', '--platform=managed', '--region=us-west2']

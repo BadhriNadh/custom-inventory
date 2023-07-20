@@ -5,11 +5,16 @@ public class Item {
     private String itemName;
     private Integer count;
 
+    public Item(){}
+
     public Item(String itemName, Integer count) {
         this.itemName = itemName;
         this.count = count;
     }
 
+    public Item(String itemName) {
+        this.itemName = itemName;
+    }
     public String getItemName() {
         return itemName;
     }

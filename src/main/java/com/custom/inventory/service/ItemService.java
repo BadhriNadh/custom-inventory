@@ -36,4 +36,8 @@ public class ItemService {
 
         return store1.getZones().stream().filter(z -> z.getZoneName().equalsIgnoreCase(requestItem.getZoneName())).toList().get(0);
     }
+
+    public void deleteItem(RequestItem requestItem){
+        storeRepository.deleteItem(requestItem);
+    }
 }

@@ -39,4 +39,11 @@ public class ItemController extends Handler {
         Response response = new Response("Saved", HttpStatus.OK.value(), HttpStatus.OK.name());
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
+    @PostMapping("/delete")
+    private ResponseEntity<Response> deleteItem(@RequestBody RequestItem requestItem){
+        itemService.deleteItem(requestItem);
+        Response response = new Response("Deleted", HttpStatus.OK.value(), HttpStatus.OK.name());
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 }

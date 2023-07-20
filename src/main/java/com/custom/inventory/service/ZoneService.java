@@ -42,4 +42,8 @@ public class ZoneService {
         return store1.getZones().stream().filter(z -> z.getZoneName().equalsIgnoreCase(requestZone.getZoneName())).toList().get(0);
 
     }
+
+    public void deleteZone(RequestZone requestZone){
+        storeRepository.deleteZone(requestZone);
+    }
 }
